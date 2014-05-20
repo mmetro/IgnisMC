@@ -1,0 +1,20 @@
+name: PlayerOutline
+main: us.ignismc.playeroutline.PlayerOutline
+version: 0.0.1
+depend:
+  - Stats
+commands:
+  profile:
+    description:  Show profile
+    usage:  /profile
+    permission: playeroutline.profile
+    permission-message: You don't have profile permission
+    
+permissions:
+  playeroutline.*:
+    description: Gives permission for all playeroutline commands
+    children:
+      playeroutline.profile: true
+  playeroutline.profile:
+    description: shows profile
+    default: true
