@@ -3,7 +3,6 @@ IgnisMC
 
 IgnisMC plugins
 
-test
+Various plugins for IngnisMC
 
-
-test2
+Each plugin is its own maven project
