@@ -61,7 +61,11 @@ public final class PlayerOutline extends JavaPlugin {
                         if (!(sender instanceof Player)) {
                             sender.sendMessage("Please specify a player.");
                         } else {
-                            sendProfileToSender(sender, player.getDisplayName());
+                            if (sender.hasPermission("playeroutline.show.others")) {
+                                sendProfileToSender(sender, player.getDisplayName());
+                            } else {
+                                sender.sendMessage("You do not have permission to view the profile of other players.");
+                            }
                         }
                         return true;
                         
@@ -83,15 +87,19 @@ public final class PlayerOutline extends JavaPlugin {
                     
                 } else if(args[0].equalsIgnoreCase("bio")){
                     if (sender instanceof Player) {
-                        String bioText = StringUtils.join(args, ' ', 2, args.length);
+                        String bioText = StringUtils.join(args, ' ', 1, args.length-1);
                         //TODO set sender's bio	            
                         return true;
                     } else {
                         sender.sendMessage("Only players can set their bio.");
                     }
+                    
+                } else if(args[0].equalsIgnoreCase("bioplayer") && sender.hasPermission("playeroutline.bio.others")){
+                    //for admins or whatever, change another player's bio.
+                    //needs a separate command from bio.  How will I know if its the players name or the start of their bio?
+                    String bioText = StringUtils.join(args, ' ', 2, args.length-1);
+                    //set the name for player in args[1]
                 }
-                //TODO let admin change any player's BIO
-                
             } 
 	    }
 	    return false; 

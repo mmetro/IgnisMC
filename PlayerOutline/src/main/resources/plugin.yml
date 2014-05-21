@@ -5,7 +5,7 @@ depend:
   - Stats
 commands:
   profile:
-    description:  Show profile
+    description:  Basic profile command, behavior depends on arguments
     usage:  /profile
     permission: playeroutline.profile
     permission-message: You don't have profile permissions
