@@ -4,6 +4,8 @@ import java.util.logging.Level;
 
 import nl.lolmewn.stats.api.Stat;
 import nl.lolmewn.stats.api.StatsAPI;
+import nl.lolmewn.stats.api.mysql.MySQLType;
+import nl.lolmewn.stats.api.mysql.StatsTable;
 import nl.lolmewn.stats.player.StatData;
 import nl.lolmewn.stats.player.StatsPlayer;
 
@@ -36,6 +38,8 @@ public final class PlayerOutline extends JavaPlugin {
 	    {
 	        getLogger().log(Level.SEVERE, "Could not get stats API");
 	    }
+	    
+	    StatsTable playerTable = statsAPI.getStatsTable(statsAPI.getDatabasePrefix() + "player");
 
 	}
 	
@@ -96,7 +100,7 @@ public final class PlayerOutline extends JavaPlugin {
                     
                 } else if(args[0].equalsIgnoreCase("bioplayer") && sender.hasPermission("playeroutline.bio.others")){
                     //for admins or whatever, change another player's bio.
-                    //needs a separate command from bio.  How will I know if its the players name or the start of their bio?
+                    //is a separate command from bio, because how will I know if its the players name or the start of their bio?
                     String bioText = StringUtils.join(args, ' ', 2, args.length-1);
                     //set the name for player in args[1]
                 }
