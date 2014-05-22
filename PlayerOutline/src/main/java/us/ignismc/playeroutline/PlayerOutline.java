@@ -1,10 +1,15 @@
 package us.ignismc.playeroutline;
 
+import java.util.Arrays;
 import java.util.logging.Level;
 
+import javax.xml.crypto.Data;
+
 import nl.lolmewn.stats.api.Stat;
+import nl.lolmewn.stats.api.StatDataType;
 import nl.lolmewn.stats.api.StatsAPI;
 import nl.lolmewn.stats.api.mysql.MySQLType;
+import nl.lolmewn.stats.api.mysql.StatTableType;
 import nl.lolmewn.stats.api.mysql.StatsTable;
 import nl.lolmewn.stats.player.StatData;
 import nl.lolmewn.stats.player.StatsPlayer;
@@ -39,13 +44,13 @@ public final class PlayerOutline extends JavaPlugin {
 	        getLogger().log(Level.SEVERE, "Could not get stats API");
 	    }
 	    
-	    StatsTable playerTable = statsAPI.getStatsTable(statsAPI.getDatabasePrefix() + "player");
-
+	    getConfig();
+	    
 	}
 	
 	@Override
 	public void onDisable(){
-
+	    saveConfig();
 	}
 	
 	private void sendProfileToSender(CommandSender sender, String profileName){
@@ -55,7 +60,6 @@ public final class PlayerOutline extends JavaPlugin {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-	    Player player = (Player)sender;
 	    if (cmd.getName().equalsIgnoreCase("profile")) { 
 	        if(args.length > 0){
 	            
@@ -66,7 +70,7 @@ public final class PlayerOutline extends JavaPlugin {
                             sender.sendMessage("Please specify a player.");
                         } else {
                             if (sender.hasPermission("playeroutline.show.others")) {
-                                sendProfileToSender(sender, player.getDisplayName());
+                                sendProfileToSender(sender, ((Player)sender).getDisplayName());
                             } else {
                                 sender.sendMessage("You do not have permission to view the profile of other players.");
                             }
@@ -91,8 +95,8 @@ public final class PlayerOutline extends JavaPlugin {
                     
                 } else if(args[0].equalsIgnoreCase("bio")){
                     if (sender instanceof Player) {
-                        String bioText = StringUtils.join(args, ' ', 1, args.length-1);
-                        //TODO set sender's bio	            
+                        getLogger().info(StringUtils.join(Arrays.copyOfRange(args, 1, args.length), ' '));
+                        getConfig().set( "bios." + ((Player)sender).getUniqueId(), StringUtils.join(Arrays.copyOfRange(args, 1, args.length), ' '));
                         return true;
                     } else {
                         sender.sendMessage("Only players can set their bio.");
@@ -101,7 +105,7 @@ public final class PlayerOutline extends JavaPlugin {
                 } else if(args[0].equalsIgnoreCase("bioplayer") && sender.hasPermission("playeroutline.bio.others")){
                     //for admins or whatever, change another player's bio.
                     //is a separate command from bio, because how will I know if its the players name or the start of their bio?
-                    String bioText = StringUtils.join(args, ' ', 2, args.length-1);
+
                     //set the name for player in args[1]
                 }
             } 
